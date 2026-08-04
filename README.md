@@ -381,18 +381,33 @@ nuclei -t http/cves/ -u http://target.com
 # Exclude low-severity findings
 nuclei -u http://target.com -exclude-severity info,low -o critical-findings.txt
 ```
+### Workflow 4: Automatic Improvement Logging After Sessions
 
-### Workflow 4: Improvement Logging After Sessions
+Every task should be logged using the automatic improvement tracker:
+
 ```bash
-# After completing a security assessment, log learnings
+# After completing a bug bounty or RE task, run:
 bash ~/.hermes/profiles/default/skills/improvement-tracker.sh \
-    bug-bounty <outcome> "<specific learnings>"
+    bug-bounty success "Found 3 SQL injection vulnerabilities using custom payloads. Rate limiting at 50 req/sec avoided blocking."
 
-# Review improvement tracker
+# Or for reverse engineering:
+bash ~/.hermes/profiles/default/skills/improvement-tracker.sh \
+    reverse-engineering decompilation-success "Function 0x400500 fully reversed. Key encryption routine identified. Note: Use Ghidra p-code emulation for better accuracy."
+
+# Review improvement history anytime:
 cat ~/.hermes/profiles/default/memories/bug-bounty-improvements.md
-
-# Tip: Always document findings, even if unsuccessful. This helps improve the suite over time.
+cat ~/.hermes/profiles/default/memories/reverse-skill-improvements.md
 ```
+
+**Why This Matters:**
+The improvement tracker automatically logs:
+- ✅ What worked / what failed
+- ✅ Methodology used
+- ✅ Tools configured successfully
+- ✅ Lessons learned for next time
+- ✅ Timestamp and outcome data
+
+This creates a continuous learning loop where your skills get better with every engagement. All logs are stored in `memories/` directory and updated automatically.
 
 ---
 
