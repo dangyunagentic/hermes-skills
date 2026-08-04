@@ -1,0 +1,57 @@
+MIT License
+
+Copyright (c) 2026 Dangyun/Hermes Security Suite Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+IMPORTANT LEGAL NOTICE:
+
+This software contains powerful security testing tools that MUST be used ethically and legally. 
+
+AUTHORIZED USE ONLY: You must have explicit written permission from the system owner before using these tools to scan, test, or analyze any computer systems, networks, or applications.
+
+ILLEGAL USE WARNING: Unauthorized scanning, exploitation, or unauthorized access to computer systems is illegal under laws such as:
+- US Computer Fraud and Abuse Act (CFAA)
+- UK Computer Misuse Act 1990
+- EU Directive on attacks against information systems
+- Indonesia's UU ITE (Law No. 11 of 2008 on Electronic Information and Transactions)
+- And similar laws worldwide
+
+CONSEQUENCES: Violating these laws can result in severe criminal penalties including imprisonment and fines.
+
+BY USING THIS SOFTWARE, YOU AGREE TO:
+✅ Use tools ONLY on systems you own or have written authorization to test
+✅ Document your authorization scope before deployment
+✅ Follow responsible disclosure practices for vulnerabilities found
+✅ Report findings through proper channels
+✅ Respect rate limits and avoid causing disruption
+✅ Use exclusively for legitimate security research and authorized penetration testing
+
+❌ DO NOT use for:
+- Unauthorized scanning or testing
+- Credential stuffing or password attacks
+- Any illegal activities
+- Activities that violate terms of service
+- Malicious purposes
+
+The authors and contributors of this software are not responsible for misuse of these tools. Users assume full responsibility for their actions and must comply with all applicable laws.
+
+For questions about legal use, contact: [Your Contact Email]

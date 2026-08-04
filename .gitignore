@@ -1,0 +1,80 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Go build artifacts
+bin/
+build/
+dist/
+*.exe
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
+.tmp/
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Environment variables (NEVER COMMIT SECRETS!)
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+secrets.json
+credentials.json
+
+# Compiled binaries (rebuild from source)
+fp-server
+gobuster
+nuclei
+subfinder
+amass
+wfuzz
+zap
+
+# Source repositories (clone separately or use git submodules)
+source-repos/
+
+# Docker volumes
+.docker/
+
+# Test coverage
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Nuclei templates cache
+.nuclei-cache/
+
+# Fingerprint generator models (large files, regenerate if needed)
+fpgen/data/*.zst
+
+# Misc archives
+*.tar.gz
+*.zip
