@@ -396,34 +396,6 @@ cat ~/.hermes/profiles/default/memories/bug-bounty-improvements.md
 
 ---
 
-## 🔐 Legal & Ethical Considerations
-
-### DO ✅
-- Use ONLY on systems you own or have written authorization to test
-- Document scope and limitations before starting
-- Follow responsible disclosure practices
-- Report vulnerabilities responsibly through proper channels
-- Respect rate limits to avoid causing disruption
-- Use for educational purposes and legitimate security research
-
-### DON'T ❌
-- Scan unauthorized systems (illegal, can result in criminal charges)
-- Deploy without explicit written consent
-- Ignore terms of service of target platforms
-- Distribute findings without authorization
-- Use tools for malicious purposes (fraud, credential stuffing, etc.)
-
-### Legal Disclaimer
-This suite contains powerful security testing tools that MUST be used ethically and legally. Unauthorized scanning, testing, or exploitation of computer systems without owner consent is illegal under laws like:
-- US Computer Fraud and Abuse Act (CFAA)
-- UK Computer Misuse Act
-- EU GDPR violations
-- Indonesia's UU ITE (Information Technology Law)
-
-By using this software, you agree to use it ONLY for authorized purposes.
-
----
-
 ## 🛠️ Troubleshooting
 
 ### Go Not Found Error
