@@ -1,164 +1,187 @@
 # 🛡️ Hermes Skills — Offensive Security Toolkit
 
-**Unified collection of operational skills for red team, reverse engineering, web exploitation, and automated security testing.**
-
-## 📦 Overview
-
-This repository contains:
-- **Existing Tools**: Ghidra, Captcha Solver, Browser Fingerprint Generator, Bug Bounty Suite
-- **New Additions (2024)**: GuardX Hybrid, RECore Reverse Engineering
+**Updated 2024-08-04**: Full suite with GuardX Hybrid + RECore tools  
+**Total Tools**: 15+ offensive security capabilities  
+**Status**: All validated and operational
 
 ---
 
-## 🚀 Quick Start
+## Quick Start (30 Seconds)
 
 ```bash
-# Clone this repo
 git clone https://github.com/dangyunagentic/hermes-skills.git
 cd hermes-skills
-
-# Install all dependencies
-./INSTALL_ALL.sh
-
-# Activate a skill
-export HERMES_SKILLS_HOME=$(pwd)
-source skills/<skill-name>/activate.sh
+bash ./INSTALL_ALL.sh
+source ~/.bashrc
 ```
+
+✅ Done! All tools ready at `~/.hermes/profiles/default/skills/`
 
 ---
 
-## 🔥 New Skills (Just Added)
+## 🆕 New Skills (Just Added!)
 
-### 1. GuardX Hybrid (Web Vuln + Exploit + RE)
-- **CVE Scanning**: 29+ checks (SQLi, XSS, RCE, Spring Actuator)
-- **Auto-Exploit**: 123+ vulnerabilities with WAF bypass
-- **Secret Detection**: GitHub repos, .env leaks, API keys
-- **RE Bridge**: Integrated binary analysis (radare2, gdb, strings)
-- **WordPress Mass Dorking**: Async scanning from CSV
+### 1. 🛡️ GuardX Hybrid (Web Vuln + Exploit + RE)
 
-**Usage:**
-```python
-from skills.guardx import guardx
-result = guardx.scan('target.com', scan_cve=True)
-guardx.exploit(target='site.com', vuln='wp2shell')
-re_analysis = guardx.re.extract_strings('/tmp/binary')
+**Capabilities:**
+- CVE scanning (29+ checks: SQLi, XSS, RCE, Spring Actuator)
+- Auto-exploit with WAF bypass (Cloudflare, Imunify360)
+- Secret detection (.env, API keys, GitHub repos)
+- WordPress/Joomla mass dorking
+- Binary analysis via RECore bridge
+
+**Quick commands:**
+```bash
+guardx-quickstart.sh scan example.com          # CVE scan
+guardx-quickstart.sh exploit site wp2shell     # Exploit WordPress
+guardx-quickstart.sh list                      # List all exploits
+guardx-quickstart.sh re /path/to/binary        # RE analysis
+guardx-quickstart.sh validate                  # Test install
 ```
 
-### 2. RECore (Reverse Engineering)
-- **Static Analysis**: radare2 disassembly, crypto detection, string extraction
-- **Dynamic Analysis**: Frida hooking, strace/ltrace, memory inspection
-- **Mobile RE**: JADX APK decompiler, apktool smali extraction
-- **Binary Frameworks**: Angr, Unicorn, Capstone integration
+**Python API:**
+```python
+from skills.guardx import guardx
 
-**Usage:**
+result = guardx.scan('target.com', scan_cve=True)
+subs = guardx.subdiscover('example.com')
+guardx.exploit(target='site.com', vuln='wp2shell', interactive=True)
+guardx.re.extract_strings('/tmp/binary', min_length=8)
+```
+
+**Documentation:** `skills/guardx-suite.md` | **Setup:** `skills/guardx-setup.sh`
+
+---
+
+### 2. 🔧 RECore (Reverse Engineering)
+
+**Capabilities:**
+- Static analysis: radare2 disassembly, string extraction, crypto detection
+- Dynamic analysis: Frida hooking, strace/ltrace, memory inspection
+- Mobile RE: JADX APK decompiler, Apktool smali extraction
+- Frameworks: Angr, Unicorn, Capstone integration
+
+**Quick commands:**
+```bash
+recore-getinfo /bin/ls                           # Binary metadata
+recore-extract-strings malware.exe --min-len 6   # Find strings
+recore-decompile-apk app.apk                     # APK → Java source
+recore-detect-crypto binary.bin                  # AES/SHA/RSA patterns
+```
+
+**Python API:**
 ```python
 from skills.recore import recore
+
 info = recore.get_binary_info('/path/to/binary')
-strings = recore.extract_strings('/path/file', min_length=8)
+strings = recore.extract_strings('/file.bin', min_length=8)
+crypto = recore.detect_crypto_primitives('/malware.exe')
 result = recore.decompile_apk('/app.apk')
 ```
 
----
-
-## 🧪 Existing Skills
-
-| Skill | Description | Status |
-|-------|-------------|--------|
-| **Ghidra MCP** | Reverse engineering automation via MCP protocol | ✅ Ready |
-| **Captcha Solver** | Turnstile, hCaptcha, reCAPTCHA solving infrastructure | ✅ Ready |
-| **Browser Fingerprint** | JA3/JA4 spoofing, fingerprint randomization | ✅ Ready |
-| **Bug Bounty Suite** | Scraping pipelines, anti-bot evasion, data aggregation | ✅ Ready |
-| **Advanced RE** | Ghidra-based static/dynamic analysis workflow | ✅ Ready |
+**Documentation:** `skills/recore-suite.md` | **Setup:** `skills/recore-setup.sh`
 
 ---
 
-## 📋 Installation
+## 📦 Existing Skills (All Working)
 
-### System Dependencies (apt)
+| Skill | Description | Command | Docs |
+|-------|-------------|---------|------|
+| **Bug Bounty Suite** | recon, scan, scrape, brute force | `bb-quickstart.sh help` | `skills/bug-bounty-*` |
+| **Captcha Solver** | Turnstile/hCaptcha/reCAPTCHA bypass | `captcha-quickstart.sh help` | `skills/captcha-solver-*` |
+| **Browser Fingerprint** | JA3/JA4 spoofing, anti-detection | `fp-gen-server &` | `skills/browser-fingerprint-*` |
+| **Ghidra MCP** | Automated reverse engineering | `ghidra-mcp-launch.sh start` | `skills/ghidra-mcp-*` |
+| **HAR Capture** | Chrome HAR generation & redaction | `har-capture-setup.sh test` | `skills/har-capture-*` |
+| **Advanced RE** | Ghidra-based workflows | See docs | `skills/advanced-re-*` |
+
+---
+
+## 🎯 Complete Workflows
+
+### Web App Pentest (Full Chain)
 ```bash
-apt install radare2 gdb binutils binwalk strace ltrace file \
-             openjdk-17-jdk-headless python3-pip curl wget
+# Phase 1: Recon
+subfinder -d target.com > subs.txt
+cat subs.txt | httpx -silent > alive.txt
+
+# Phase 2: CVE Scan
+guardx-quickstart.sh scan target.com
+
+# Phase 3: Exploit
+guardx-quickstart.sh exploit target.com actuator
+
+# Phase 4: Analyze downloaded binary
+guardx-quickstart.sh re /tmp/actuator_dump.jar
+recore-detect-crypto /tmp/actuator_dump.jar
 ```
 
-### Python Dependencies (pip)
+### Malware Analysis Pipeline
 ```bash
-pip install requests cloudscraper aiohttp PyYAML frida \
-            angr unicorn capstone jadx
+# Step 1: Get binary info
+recore-getinfo malware.exe
+
+# Step 2: Extract suspicious strings
+recore-extract-strings malware.exe --min-len 10
+
+# Step 3: Check for crypto patterns
+recore-detect-crypto malware.exe
+
+# Step 4: Trace execution
+recore-trace malware.exe --args hidden
 ```
 
-### Optional Tools
-- **APK Tools**: JADX v1.5.6, Apktool v2.9.3 (manual install)
-- **Docker**: For containerized skill deployments
+### APK Reverse Engineering
+```bash
+# Step 1: Decompile APK
+recore-decompile-apk app.apk --output /tmp/apk
 
-See `INSTALLATION_GUIDE.md` for detailed steps per skill.
+# Step 2: Search for hardcoded credentials
+grep -r "password\|secret\|api_key" /tmp/apk/smali/
 
----
-
-## 🎯 Usage Examples
-
-### Web Exploitation (GuardX)
-```python
-from skills.guardx import guardx
-
-# Subdomain enumeration
-subs = guardx.subdiscover('example.com')
-print(f"Found {subs['count']} subdomains")
-
-# Auto-exploit WordPress SQLi
-guardx.exploit(target='vuln-site.com', vuln='wp2shell', interactive=True)
-
-# Secret scan on GitHub
-secrets = guardx.secret_scan('github.com/user/repo', include_git=True)
-```
-
-### Reverse Engineering (RECore)
-```python
-from skills.recore import recore
-
-# Binary metadata & hashes
-info = recore.get_binary_info('/bin/ls')
-print(f"MD5: {info['md5']}, SHA256: {info['sha256']}")
-
-# Extract strings from ELF
-strings = recore.extract_strings('/path/to/binary', min_length=6)
-print(f"Found {strings['count']} strings")
-
-# Crypto primitive detection
-crypto = recore.detect_crypto_primitives('/path/to/binary')
-```
-
-### Hybrid Workflow
-```python
-from skills.guardx import guardx
-
-# Find exposed backup → extract → analyze for secrets
-scan_result = guardx.scan('vulnerable-site.com', scan_cve=True)
-if scan_result['data']['backup_files']:
-    guardx.exploit('site.com', vuln='backup')
-    
-    # Analyze extracted binary
-    secrets = guardx.re.extract_strings('/tmp/extracted/bin', min_length=10)
-    print(f"Found API key in: {secrets['strings'][0]}")
+# Step 3: Analyze with Ghidra MCP
+ghidra-mcp-analyze /tmp/apk/classes.dex
 ```
 
 ---
 
-## 🔒 Security Notes
+## 📚 Documentation
 
-- All tools designed for **authorized testing only**
-- Use on targets you own or have explicit permission to test
-- Credentials and sensitive data should never be logged
-- Follow responsible disclosure policies when finding bugs
-
----
-
-## 📄 License
-
-Educational / Authorized Testing Only  
-All content provided "as-is" for offensive security research
+- **README.md** — This overview
+- **QUICK_START.md** — Quick commands reference
+- **INSTALLATION_GUIDE.md** — Detailed step-by-step setup
+- **skills/guardx-suite.md** — GuardX complete documentation
+- **skills/recore-suite.md** — RECore complete documentation
+- **skills/*.md** — Individual skill documentation
+- **memories/** — Installation logs and improvement trackers
 
 ---
 
-*Built for Autumn / Dangyun Operations*  
-*Hermes Agent Integration Ready*  
-*Last Updated: 2024-08-04*
+## ⚠️ Legal Notice
+
+**ALL tools are for authorized testing ONLY.**
+
+- Use only on systems you own or have written permission to test
+- Unauthorized scanning/exploration is illegal and can result in criminal charges
+- Follow responsible disclosure policies when finding vulnerabilities
+- Keep credentials and sensitive data encrypted, never log plaintext
+
+---
+
+## ✅ Verification Checklist
+
+After installation, verify all these work:
+
+- [ ] `jadx --version` shows v1.5.6
+- [ ] `apktool --version` shows 2.9.3
+- [ ] `r2 --version` works
+- [ ] `frida --version` works (v17.16.4+)
+- [ ] `guardx-quickstart.sh validate` passes
+- [ ] `bb-quickstart.sh help` shows bug bounty options
+- [ ] `cat ~/.hermes.env` contains GUARDX_ENABLED=true
+
+If all checked, you're ready to go! 🎉
+
+---
+
+*Last Updated: 2024-08-04 | Maintained by Dangyun Operations*  
+*Built for Autumn / Hermes Agent Integration*
