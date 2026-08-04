@@ -396,6 +396,18 @@ cat ~/.hermes/profiles/default/memories/bug-bounty-improvements.md
 
 ---
 
+## 🔐 Usage Guidelines
+
+This suite contains professional security testing tools designed for:
+- ✅ Authorized bug bounty hunting
+- ✅ Security research on systems you own
+- ✅ Penetration testing with explicit written consent
+- ✅ Educational purposes in controlled environments
+
+**Always obtain proper authorization before scanning any system.** Unauthorized access violates computer fraud laws worldwide.
+
+---
+
 ## 🛠️ Troubleshooting
 
 ### Go Not Found Error
