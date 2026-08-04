@@ -16,16 +16,16 @@
 
 ## 🎯 What is This?
 
-**Hermes Skills** adalah kumpulan tools keamanan web profesional untuk bug bounty hunting, reverse engineering, vulnerability scanning, dan anti-bot evasion. Semua tools telah terintegrasi dengan sistem logging improvement otomatis untuk continuous enhancement.
+**Hermes Skills** is a comprehensive collection of professional web security tools designed for bug bounty hunting, reverse engineering, vulnerability scanning, and anti-bot evasion. All tools are integrated with automatic improvement logging system for continuous enhancement.
 
-Didedikasikan untuk komunitas Open Source dan dapat digunakan oleh siapa saja yang membutuhkan tools keamanan web profesional. 
+Dedicated to the Open Source community and available for anyone who needs professional web security testing tools.
 
 ### Features ✨
 
-- ✅ **Reverse Engineering** - Ghidra MCP integration (4 repos), advanced RE tools
+- ✅ **Reverse Engineering** - Ghidra MCP integration (4 repositories), advanced RE tools
 - ✅ **Web Vulnerability Scanning** - Nuclei, OWASP ZAP, Subfinder, Gobuster, Amass, Wfuzz
 - ✅ **Browser Fingerprint Generation** - 3 implementations (BrowserForge, fpgen, FPGen Golang server)
-- ✅ **Captcha Solving** - Turnstile, reCAPTCHA, hCaptcha solvers (6 repos merged)
+- ✅ **Captcha Solving** - Turnstile, reCAPTCHA, hCaptcha solvers (6 repositories merged)
 - ✅ **HAR Capture Suite** - Browser traffic capture and analysis
 - ✅ **Improvement Tracking** - Auto-log lessons learned after every session
 
@@ -557,7 +557,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 ## 📞 Support & Contact
 
 For issues, questions, or contributions:
-- Open an issue on GitHub: https://github.com/YOUR_USERNAME/hermes-skills/issues
+- Open an issue on GitHub: https://github.com/dangyunagentic/hermes-skills/issues
 - Join our Discord: [Discord invite link]
 - Email: contact@yourdomain.com
 
@@ -582,7 +582,7 @@ Special thanks to:
 **Hermes Skills - Professional Security Testing Suite**  
 *Version: 1.0.0 | Last Updated: 2026-08-04*
 
-[![GitHub stars](https://img.shields.io/github/stars/YOUR_USERNAME/hermes-skills.svg?style=social&label=Star)](https://github.com/YOUR_USERNAME/hermes-skills)
-[![GitHub forks](https://img.shields.io/github/forks/YOUR_USERNAME/hermes-skills.svg?style=social&label=Fork)](https://github.com/YOUR_USERNAME/hermes-skills/fork)
+[![GitHub stars](https://img.shields.io/github/stars/dangyunagentic/hermes-skills.svg?style=social&label=Star)](https://github.com/dangyunagentic/hermes-skills)
+[![GitHub forks](https://img.shields.io/github/forks/dangyunagentic/hermes-skills.svg?style=social&label=Fork)](https://github.com/dangyunagentic/hermes-skills/fork)
 
 </div>
