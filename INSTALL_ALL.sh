@@ -90,7 +90,26 @@ echo ""
 echo "   After installing, verify: jadx --version && apktool --version"
 echo ""
 
-# Step 5: Create quick-start scripts
+# Step 3a: Run GuardX setup
+echo ""
+echo "🛡️  Setting up GuardX Hybrid skill..."
+if [ -f "skills/guardx-setup.sh" ]; then
+    bash skills/guardx-setup.sh 2>/dev/null || echo "⚠️  GuardX setup had issues"
+else
+    echo "⚠️  GuardX setup script not found"
+fi
+
+# Step 3b: Run RECore setup
+echo ""
+echo "🔧 Setting up RECore reverse engineering skill..."
+if [ -f "skills/recore-setup.sh" ]; then
+    bash skills/recore-setup.sh 2>/dev/null || echo "⚠️  RECore setup had issues"
+else
+    echo "⚠️  RECore setup script not found"
+fi
+echo ""
+
+# Step 4: Create quick-start scripts
 echo "🚀 Creating quick-start scripts..."
 
 cat > ~/.hermes/profiles/default/skills/bb-quickstart.sh << 'EOF'
@@ -253,7 +272,7 @@ else
 fi
 echo ""
 
-# Step 8: Summary
+# Step 9: Summary
 echo "=========================================="
 echo "✨ INSTALLATION COMPLETE!"
 echo "=========================================="
@@ -262,18 +281,23 @@ echo "Installed Components:"
 echo "✅ Core skills: $(ls ~/.hermes/profiles/default/skills/*.md 2>/dev/null | wc -l) documentation files"
 echo "✅ Memories: $(ls ~/.hermes/profiles/default/memories/*.md 2>/dev/null | wc -l) installation logs"
 echo "✅ Quick-start scripts: Ready at ~/.hermes/profiles/default/skills/"
-echo "✅ GuardX: Web vuln scanning + exploitation + RE bridge"
-echo "✅ RECore: Reverse engineering tools (radare2, Frida, JADX ready)"
+echo "✅ GuardX Hybrid: Web vuln + exploit + RE bridge ✓"
+echo "✅ RECore: Reverse engineering (radare2, Frida, JADX, Apktool) ✓"
 [ -f ~/bin/fp-server ] && echo "✅ FPGen Server: Built and ready at ~/bin/fp-server"
 echo "✅ Environment: Configured at ~/.hermes.env"
 echo ""
+echo "New Quick Commands:"
+echo "  guardx-quickstart.sh scan target.com      # CVE vulnerability scan"
+echo "  guardx-quickstart.sh exploit site wp2shell # Auto-exploit WordPress"
+echo "  guardx-quickstart.sh validate             # Test all installations"
+echo "  recore-getinfo /path/to/binary            # Binary metadata"
+echo ""
 echo "Next Steps:"
 echo "1. Source your shell: source ~/.bashrc"
-echo "2. Install JADX/Apktool (see above)"
+echo "2. Install APK tools: jadx --version && apktool --version"
 echo "3. Start FPGen server: ~/bin/fp-server --port 8800 &"
-echo "4. Test bug bounty: bb-quickstart.sh help"
-echo "5. Test GuardX: guardx-quickstart.sh validate"
-echo "6. Read docs: cat ~/.hermes/profiles/default/skills/README.md"
+echo "4. Test GuardX: guardx-quickstart.sh validate"
+echo "5. Read docs: cat ~/.hermes/profiles/default/skills/README.md"
 echo ""
 echo "Quick Commands:"
 echo "  guardx-quickstart.sh scan example.com    # CVE scan"
