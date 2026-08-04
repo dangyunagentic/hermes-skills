@@ -15,7 +15,7 @@ which git && echo "✅ Git installed" || echo "❌ Git required"
 ### One-Command Installation
 ```bash
 # Clone and install everything
-git clone https://github.com/YOUR_USERNAME/hermes-skills.git
+git clone https://github.com/dangyunagentic/hermes-skills.git
 cd hermes-skills
 bash ./INSTALL_ALL.sh
 ```

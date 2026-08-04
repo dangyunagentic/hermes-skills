@@ -4,7 +4,7 @@
 
 ### Option 1: One-Command Install (Recommended)
 ```bash
-git clone https://github.com/YOUR_USERNAME/hermes-skills.git
+git clone https://github.com/dangyunagentic/hermes-skills.git
 cd hermes-skills
 chmod +x INSTALL_ALL.sh
 ./INSTALL_ALL.sh
