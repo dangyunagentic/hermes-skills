@@ -1,413 +1,296 @@
-# 🔧 Complete Installation Guide - Hermes Skills Security Suite
+# 🔧 Complete Installation Guide — Hermes Skills Security Suite
+
+**Updated 2024-08-04**: Added GuardX Hybrid + RECore tools  
+Total: 15+ offensive security tools ready to deploy
+
+---
 
 ## ⚡ Quick Start (5 Minutes)
 
-### Prerequisites Check
+### One-Command Install
 ```bash
-# Verify system requirements
-echo "=== System Requirements Check ==="
-go version || echo "❌ Go not installed - required >= 1.22.5"
-python3 --version || echo "❌ Python 3.8+ required"
-docker --version || echo "⚠️ Docker optional (for ZAP)"
-which git && echo "✅ Git installed" || echo "❌ Git required"
-```
-
-### One-Command Installation
-```bash
-# Clone and install everything
 git clone https://github.com/dangyunagentic/hermes-skills.git
 cd hermes-skills
 bash ./INSTALL_ALL.sh
+source ~/.bashrc
 ```
+
+Done! All tools ready at `~/.hermes/profiles/default/skills/`
 
 ---
 
 ## 📋 Detailed Installation Steps
 
-### Step 1: Install Dependencies
+### Step 1: System Dependencies (Automated)
 
-#### Install Go (Required for FPGen Server & Tools)
+The `INSTALL_ALL.sh` script will install these automatically:
+
+#### Core Tools (apt)
 ```bash
-# Method 1: Direct download (recommended)
-curl -O https://go.dev/dl/go1.22.5.linux-amd64.tar.gz
-sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf go1.22.5.linux-amd64.tar.gz
-echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
-source ~/.bashrc
-go version  # Should show: go1.22.5 linux/amd64
+# Reverse engineering
+radare2 gdb binutils binutils binwalk strace ltrace file
+
+# Development tools
+wget curl git build-essential
+
+# JDK for JADX/Apktool
+openjdk-17-jdk-headless
 ```
 
-#### Install Python Packages
+#### Python Packages (pip)
 ```bash
-# Install with break-system-packages flag (Ubuntu/Debian)
-pip3 install --break-system-packages browserforge[all] fpgen
+# GuardX core
+requests cloudscraper aiohttp PyYAML cryptography fpdf
 
-# OR use virtualenv (recommended for clean environment)
-python3 -m venv ~/fp-venv
-source ~/fp-venv/bin/activate
-pip install browserforge[all] fpgen wfuzz
-deactivate  # Leave virtualenv when done
+# Frida dynamic instrumentation
+frida frida-tools
+
+# Optional advanced RE frameworks (prompt-based)
+angr unicorn capstone
 ```
 
-#### Optional: Install Docker (for OWASP ZAP)
+#### APK Tools (Manual - instructions below)
+- **JADX v1.5.6** — APK to Java decompiler
+- **Apktool v2.9.3** — Smali bytecode extractor
+
+---
+
+### Step 2: Manual APK Tool Setup
+
+**JADX Installation:**
 ```bash
-sudo apt update
-sudo apt install docker.io -y
-systemctl start docker
-usermod -aG docker $USER
-# Log out and back in, then verify:
-docker pull zaproxy/zap-stable
-docker run zaproxy/zap-stable -version
+cd ~/tools && mkdir -p jadx
+cd jadx
+
+# Download JADX zip
+wget https://github.com/skylot/jadx/releases/download/v1.5.6/jadx-1.5.6.zip
+unzip jadx-1.5.6.zip
+
+# Create symlink
+sudo ln -s $(pwd)/jadx-1.5.6/bin/jadx /usr/local/bin/jadx
+sudo ln -s $(pwd)/jadx-1.5.6/bin/jadxi /usr/local/bin/jadxi
+
+# Verify
+jadx --version
+apktool --version  # Next step
+```
+
+**Apktool Installation:**
+```bash
+cd ~/tools
+
+# Download apktool jar
+wget https://github.com/iBotPeaches/Apktool/releases/download/v2.9.3/apktool_2.9.3.jar
+mkdir -p /opt && mv apktool_2.9.3.jar /opt/apktool.jar
+
+# Create launcher script
+echo '#!/bin/bash' > /usr/local/bin/apktool
+echo 'exec java -jar "/opt/apktool.jar" "$@"' >> /usr/local/bin/apktool
+chmod +x /usr/local/bin/apktool
+
+# Verify
+apktool --version
 ```
 
 ---
 
-### Step 2: Deploy Skills to Hermes Profile
+### Step 3: Deploy Skills (Automated)
 
-#### Copy All Files
+`INSTALL_ALL.sh` does this automatically:
 ```bash
-# Copy skills from current repo to your Hermes profile
+# Copy skills to profile
 cp -r skills ~/.hermes/profiles/default/
-cp -r memories ~/.hermes/profiles/default/
+cp -r memories ~/.hermes/profiles/default/ 2>/dev/null || true
 
 # Make scripts executable
 chmod +x ~/.hermes/profiles/default/skills/*.sh
-chmod +x ~/.hermes/profiles/default/skills/bb-quickstart.sh
 ```
 
-#### Verify Installation
+**Verify:**
 ```bash
 ls ~/.hermes/profiles/default/skills/
-# Should show: ghidra-*.md, bug-bounty-*.md, browser-fingerprint-*.md, etc.
-
+# Should show: guardx/, recore/, *.md, *.sh
 ls ~/.hermes/profiles/default/memories/
 # Should show: *install-*.md, *improvements.md
 ```
 
 ---
 
-### Step 3: Clone Source Repositories
+### Step 4: Environment Setup (Automated)
 
-#### Automated Clone Script
+`INSTALL_ALL.sh` creates `~/.hermes.env`:
 ```bash
-# Create source-repos directory
-mkdir -p source-repos
-cd source-repos
+export PATH=$PATH:/usr/local/go/bin:~/go/bin
+export HERMES_SKILLS_DIR=~/.hermes/profiles/default/skills
+export GUARDX_ENABLED=true
+export RECORE_ENABLED=true
+```
 
-# Clone all 18 repositories
+Add to `.bashrc`:
+```bash
+source ~/.hermes.env
+```
+
+---
+
+### Step 5: Source Repositories (Git Clone)
+
+Clone manually or let `INSTALL_ALL.sh` handle it:
+
+```bash
+# Core GHIDRA repos
 git clone --depth 1 https://github.com/NationalSecurityAgency/ghidra ghidra-official
 git clone --depth 1 https://github.com/bethington/ghidra-mcp ghidra-mcp-beth
 git clone --depth 1 https://github.com/LaurieWired/GhidraMCP GhidraMCP-Laurie
-git clone --depth 1 https://github.com/symgraph/GhidrAssistMCP GhidrAssistMCP-symgraph
-git clone --depth 1 https://github.com/rizinorg/rz-ghidra rz-ghidra
 
-git clone --depth 1 https://github.com/daijro/browserforge BrowserForge-daijro
-git clone --depth 1 https://github.com/scrapfly/fingerprint-generator FingerprintGenerator-scrapfly
-git clone --depth 1 https://github.com/dhikadrian/fp-gen FPGen-dhikadrian
+# FPGen for browser fingerprinting
+git clone --depth 1 https://github.com/dhikadrian/fp-gen source-repos/FPGen-dhikadrian/
 
-git clone --depth 1 https://github.com/zaproxy/zaproxy OWASP-ZAP-zaproxy
-git clone --depth 1 https://github.com/projectdiscovery/nuclei nuclei-projectdiscovery
-git clone --depth 1 https://github.com/projectdiscovery/subfinder subfinder-projectdiscovery
-git clone --depth 1 https://github.com/OJ/gobuster gobuster-OJ
-git clone --depth 1 https://github.com/owasp-amass/amass amass-owasp
-git clone --depth 1 https://github.com/xmendez/wfuzz wfuzz-xmendez
-git clone --depth 1 https://github.com/PortSwigger/burp-extensions PortSwigger-BurpExtensions
-
-cd ..
+# Other tools as needed...
 ```
-
-#### Manual Clone (if auto script fails)
-See `source-repos/clone-all.sh` in this repository for complete script.
 
 ---
 
-### Step 4: Build Binaries
+### Step 6: Build FPGen Server (Optional but Recommended)
 
-#### Build FPGen Golang Server (Critical!)
 ```bash
-export PATH=$PATH:/usr/local/go/bin
 cd source-repos/FPGen-dhikadrian/fingerprint-data/fingerprint-generator
 
-# Build the server binary
+# Ensure Go is in PATH
+export PATH=$PATH:/usr/local/go/bin
+
+# Build server
 go build -o ~/bin/fp-server ./cmd/server/
 
-# Verify build
-ls -lh ~/bin/fp-server  # Should show ~7.5MB binary
-
-# Test server
+# Start server
 ~/bin/fp-server --port 8800 &
-sleep 2
-curl http://127.0.0.1:8800/health  # Should return {"status":"ok"}
-```
 
-#### Install Python Generator Models
-```bash
-# Download and decompress fpgen model for speed
-python3 << 'EOF'
-import fpgen
-print("Model will be downloaded automatically on first use")
-result = fpgen.generate(browser='Chrome', os='Windows')
-print("✅ Model downloaded successfully!")
-EOF
-
-# Decompress for 10-50x speed boost
-python3 << 'EOF'
-import fpgen
-# This should happen automatically, but verify:
-import os
-model_path = "/usr/local/lib/python3.12/dist-packages/fpgen/data/"
-if os.path.exists(model_path):
-    print(f"✅ Model files found at {model_path}")
-else:
-    print("Running fetch command...")
-    import subprocess
-    subprocess.run(["fpgen", "fetch"])
-    subprocess.run(["fpgen", "decompress"])
-EOF
-```
-
-#### Build Gobuster (Optional - CLI tool already available via pip)
-```bash
-export PATH=$PATH:/usr/local/go/bin
-cd source-repos/gobuster-OJ
-go build -o ~/bin/gobuster ./cmd/gobuster/
-gobuster --version
+# Verify
+curl http://localhost:8800/version
 ```
 
 ---
 
-### Step 5: Configure Environment Variables
+### Step 7: Test Everything
 
-#### Create Environment File
 ```bash
-cat > ~/.hermes.env << 'EOF'
-# Dangyun/Hermes Environment Configuration
-# Add to ~/.bashrc for persistence
+# Test GuardX validation
+guardx-quickstart.sh validate
 
-# Go Path
-export PATH=$PATH:/usr/local/go/bin:~/go/bin
+# Test RECore basic function
+python3 -c "from skills.recore import recore; print(recore.get_binary_info('/bin/ls'))"
 
-# Python Virtualenv (optional)
-# export VIRTUAL_ENV=~/fp-venv
-# export PATH=$VIRTUAL_ENV/bin:$PATH
-
-# Application paths
-export HERMES_SKILLS_DIR=~/.hermes/profiles/default/skills
-export HERMES_MEMORIES_DIR=~/.hermes/profiles/default/memories
-export SOURCE_REPOS_DIR=~/tools/source-repos
-
-# FPGen Server
-export FPGEN_SERVER_URL=http://127.0.0.1:8800
-
-# Wordlists
-export WORDLISTS_DIR=/usr/share/wordlists
-
-# Optional: Custom settings
-export NUCLEI_TEMPLATE_UPDATE=true
-export SUBFINDER_RATE_LIMIT=50
-export GOBUSTER_THREADS=50
-EOF
-
-# Load environment
-source ~/.hermes.env
-echo 'source ~/.hermes.env' >> ~/.bashrc
+# Test existing tools
+bb-quickstart.sh help
+captcha-quickstart.sh help
+ghidra-mcp-launch.sh help
 ```
 
 ---
 
-### Step 6: Verification Tests
+## 🎯 Common Post-Install Tasks
 
-#### Run Complete Verification
+### Enable GuardX Features
 ```bash
-#!/bin/bash
-# save as verify-installation.sh and execute
-
-echo "=== Completing Installation Verification ==="
-
-# Test 1: Go Version
-go version | grep -q "1.22" && echo "✅ Go 1.22+ installed" || echo "❌ Go version issue"
-
-# Test 2: Python Packages
-python3 -c "import browserforge; import fpgen" && echo "✅ Python generators installed" || echo "❌ Python packages missing"
-
-# Test 3: FPGen Server
-curl -s http://127.0.0.1:8800/health > /dev/null && echo "✅ FPGen server running" || echo "⚠️  FPGen server not running (start with: ~/bin/fp-server --port 8800 &)"
-
-# Test 4: Nuclei
-nuclei -version 2>/dev/null | grep -q "nuclei" && echo "✅ Nuclei installed" || echo "⚠️  Nuclei not installed yet"
-
-# Test 5: Subfinder
-subfinder -version 2>/dev/null | grep -q "subfinder" && echo "✅ Subfinder installed" || echo "⚠️  Subfinder not installed yet"
-
-# Test 6: File Structure
-[ -d "$HERMES_SKILLS_DIR" ] && [ -d "$HERMES_MEMORIES_DIR" ] && echo "✅ Skills/Memories directories exist" || echo "❌ Missing directories"
-
-echo ""
-echo "Installation verification complete!"
+# In ~/.bashrc or current session
+export GUARDX_ENABLED=true
+export RECORE_ENABLED=true
 ```
 
-Execute:
+### Start Services
 ```bash
-chmod +x verify-installation.sh
-./verify-installation.sh
-```
-
----
-
-### Step 7: Quick Start Commands
-
-#### After Successful Installation
-
-1. **Start FPGen Server** (always running for fingerprint generation):
-```bash
+# FPGen server
 ~/bin/fp-server --port 8800 &
+
+# Frida server (for mobile RE)
+# Upload frida-server to device and run:
+adb shell "su -c ./frida-server" &
 ```
 
-2. **Test Bug Bounty Tools**:
+### Quick Test Commands
 ```bash
-# Quick reconnaissance test (use ONLY authorized domains)
-bb-quickstart.sh recon test-domain.com
-```
+# Web vuln scan
+guardx-quickstart.sh scan example.com
 
-3. **Test Fingerprint Generation**:
-```python
-# Test Python generators
-python3 << 'EOF'
-from browserforge.fingerprints import FingerprintGenerator
-from browserforge.headers import HeaderGenerator
-import fpgen
+# Binary analysis
+recore-extract-strings /bin/ls --min-len 6
 
-# BrowserForge
-fp = FingerprintGenerator().generate()
-print(f"BrowserForge UA: {fp.navigator.userAgent[:50]}...")
+# APK decompile
+recore-decompile-apk test.apk --output /tmp/test
 
-# fpgen
-result = fpgen.generate(browser='Chrome', os='Windows')
-print(f"fpgen generated: {type(result).__name__}")
-EOF
-```
-
-4. **View Improvement Tracker**:
-```bash
-cat ~/.hermes/profiles/default/memories/reverse-skill-improvements.md
+# Validate full installation
+guardx-quickstart.sh validate
 ```
 
 ---
 
-## 🔄 Updating Existing Installation
+## 🚨 Troubleshooting
 
-### Update Skills
+### Python Package Issues
 ```bash
-# Pull latest changes from GitHub
-cd ~/hermes-dangyun-skills
-git pull origin main
+# Re-install specific package
+pip3 install --break-system-packages --force-reinstall <package_name>
 
-# Copy updated files
-cp -r skills ~/.hermes/profiles/default/
-cp -r memories ~/.hermes/profiles/default/
+# Check installed packages
+pip3 list | grep -E "(requests|cloudscraper|frida)"
+```
+
+### Tool Not Found
+```bash
+# Verify binaries exist
+which r2 gdb jadx apktool frida
+
+# Re-add to PATH if missing
+export PATH=$PATH:/usr/local/bin:/opt/jadx/bin
+```
+
+### Permission Errors
+```bash
+# Make scripts executable
 chmod +x ~/.hermes/profiles/default/skills/*.sh
+chmod +x ~/.hermes.profile.sh
+
+# Run setup with sudo if needed
+sudo apt-get update && sudo apt-get install -y <missing-package>
 ```
 
-### Update Tools
+### JDK Version Mismatch
 ```bash
-# Update Nuclei
-nuclei -update-templates
+# Check current version
+java -version
 
-# Update Subfinder  
-subfinder -update
-
-# Rebuild FPGen if needed
-export PATH=$PATH:/usr/local/go/bin
-cd source-repos/FPGen-dhikadrian/fingerprint-data/fingerprint-generator
-go build -o ~/bin/fp-server ./cmd/server/
+# If too old, install JDK 17+
+sudo apt install openjdk-17-jdk-headless
+sudo update-alternatives --config java
 ```
 
 ---
 
-## 🐛 Troubleshooting Common Issues
+## 📚 Documentation Links
 
-### Issue: "go: command not found"
-```bash
-# Solution: Add Go to PATH
-export PATH=$PATH:/usr/local/go/bin
-echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
-source ~/.bashrc
-```
-
-### Issue: "Permission denied" when running .sh files
-```bash
-# Solution: Make scripts executable
-chmod +x ~/.hermes/profiles/default/skills/*.sh
-chmod +x bb-quickstart.sh
-```
-
-### Issue: "No module named 'browserforge'"
-```bash
-# Solution: Install Python packages
-pip3 install --break-system-packages browserforge[all] fpgen
-
-# Or use virtualenv
-python3 -m venv fp-venv
-source fp-venv/bin/activate
-pip install browserforge[all] fpgen
-```
-
-### Issue: FPGen server won't start
-```bash
-# Check port is free
-lsof -i :8800 || echo "Port 8800 is free"
-
-# Kill any process using the port
-kill -9 $(lsof -t -i:8800) 2>/dev/null || true
-
-# Restart server
-~/bin/fp-server --port 8800 &
-```
-
-### Issue: Slow fingerprint generation
-```bash
-# Solution: Decompress fpgen model
-python3 << 'EOF'
-import fpgen
-import subprocess
-subprocess.run(["fpgen", "decompress"])
-print("Model decompressed - speeds should improve 10-50x")
-EOF
-```
+- **README.md** — Full overview
+- **QUICK_START.md** — Fast commands reference
+- **skills/guardx/** — GuardX documentation
+- **skills/recore/** — RECore documentation
+- **memories/** — Installation logs & improvement trackers
 
 ---
 
-## 📊 Post-Installation Checklist
+## ✅ Verification Checklist
 
-After installation, ensure you have:
+After installation, verify all these work:
 
-- [x] Go 1.22.5+ installed
-- [x] Python 3.8+ with browserforge and fpgen packages
-- [x] FPGen Golang server built and running on port 8800
-- [x] All 18 source repositories cloned
-- [x] Skills copied to `~/.hermes/profiles/default/skills/`
-- [x] Memories copied to `~/.hermes/profiles/default/memories/`
-- [x] Environment variables configured in `~/.hermes.env`
-- [x] Quick-start commands working (`bb-quickstart.sh help`)
-- [x] Improvement tracker functional
-- [x] Legal agreement reviewed (required before using tools)
+- [ ] `jadx --version` shows v1.5.6
+- [ ] `apktool --version` shows 2.9.3
+- [ ] `r2 --version` works
+- [ ] `frida --version` works (v17.16.4+)
+- [ ] `guardx-quickstart.sh validate` passes
+- [ ] `bb-quickstart.sh help` shows bug bounty options
+- [ ] `cat ~/.hermes.env` contains GUARDX_ENABLED=true
 
----
-
-## 🎯 Next Steps After Installation
-
-1. **Read Documentation**: Review each suite's documentation in `skills/`
-2. **Run Tests**: Execute quick-start commands on authorized targets only
-3. **Log First Session**: Use improvement tracker after first testing session
-4. **Customize**: Adjust wordlists, templates, and configurations for your needs
-5. **Share Knowledge**: Contribute improvements back to the community
+If all checked, you're ready to go! 🎉
 
 ---
 
-<div align="center">
-
-**Installation complete! Ready for security testing.** 🚀
-
-*Remember: Use tools ONLY on authorized systems. See README.md for legal guidelines.*
-
-</div>
+*Last Updated: 2024-08-04 | Maintained by Dangyun Operations*
+*For issues, check `memories/` for installation logs*
