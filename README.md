@@ -261,25 +261,32 @@ har-capiure --url https://target.com \
 - [ ] **Git** installed (`git --version`)
 - [ ] **wget/curl** utilities available
 
-### Step-by-Step Installation
+### Quick Start (60-Second Setup)
 
-#### 1. Clone Repository
+1. **Clone the repository:**
 ```bash
-git clone https://github.com/YOUR_USERNAME/hermes-skills.git
+git clone https://github.com/dangyunagentic/hermes-skills.git
 cd hermes-skills
 ```
 
-#### 2. Install All Skills at Once (Recommended)
+2. **Run the installer:**
 ```bash
-# Install everything with one command
-bash ./INSTALL_ALL.sh
+chmod +x INSTALL_ALL.sh
+./INSTALL_ALL.sh
+```
 
+That's it! All tools are now installed and ready to use. 🚀
+
+For detailed installation instructions, see [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md).
 # OR install individual suites:
 bash ./skills/reverse-engineering/setup.sh
 bash ./skills/bug-bounty/setup.sh
 bash ./skills/fingerprint-generation/setup.sh
 bash ./skills/captcha-solvers/setup.sh
 bash ./skills/har-capture/setup.sh
+
+# Note: This will download and install all dependencies automatically.
+# Ensure you have Go 1.22.5+ and Python 3.8+ installed before running this script.
 ```
 
 #### 3. Install Source Repositories
@@ -383,6 +390,8 @@ bash ~/.hermes/profiles/default/skills/improvement-tracker.sh \
 
 # Review improvement tracker
 cat ~/.hermes/profiles/default/memories/bug-bounty-improvements.md
+
+# Tip: Always document findings, even if unsuccessful. This helps improve the suite over time.
 ```
 
 ---
@@ -558,8 +567,12 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 For issues, questions, or contributions:
 - Open an issue on GitHub: https://github.com/dangyunagentic/hermes-skills/issues
-- Join our Discord: [Discord invite link]
-- Email: contact@yourdomain.com
+- Watch this repository for updates and new releases
+- Star the repo if you find it useful! ⭐
+
+<div align="center">
+**Contributors are welcome!** Fork this repo and submit pull requests to help improve security testing tools for everyone.
+</div>
 
 ---
 
@@ -584,5 +597,6 @@ Special thanks to:
 
 [![GitHub stars](https://img.shields.io/github/stars/dangyunagentic/hermes-skills.svg?style=social&label=Star)](https://github.com/dangyunagentic/hermes-skills)
 [![GitHub forks](https://img.shields.io/github/forks/dangyunagentic/hermes-skills.svg?style=social&label=Fork)](https://github.com/dangyunagentic/hermes-skills/fork)
+[![Issues](https://img.shields.io/github/issues/dangyunagentic/hermes-skills.svg)](https://github.com/dangyunagentic/hermes-skills/issues)
 
 </div>
