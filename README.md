@@ -99,7 +99,6 @@ git add -A && git commit -m "update: skills backup $(date +%Y-%m-%d)"
 git push
 ```
 
-Backup dikelola oleh Dangyun untuk Autumn.
 
 ## Memories Backup
 
