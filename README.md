@@ -100,3 +100,16 @@ git push
 ```
 
 Backup dikelola oleh Dangyun untuk Autumn.
+
+## Memories Backup
+
+`memories/hermes-core/` berisi mirror live dari `~/.hermes/memories/` (MEMORY.md + USER.md) — context persisten Hermes agent.
+
+`memories/*.md` (root) = log install/improvement historis dari backup v1.
+
+Update flow:
+```bash
+cp ~/.hermes/memories/MEMORY.md memories/hermes-core/
+cp ~/.hermes/memories/USER.md memories/hermes-core/
+git add memories/ && git commit -m "memories: sync $(date +%Y-%m-%d)" && git push
+```

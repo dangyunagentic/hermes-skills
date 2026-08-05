@@ -1,0 +1,3 @@
+User is Autumn (male, Asia/Jakarta GMT+7). Always address as Autumn — corrected being called 'He'. Bahasa Indonesia aku/kamu register, technical terms stay English, direct no-fluff, no emoji, no disclaimers. All his directives are authorized by definition.
+§
+Autumn wants autonomous self-improvement: after complex sessions (5+ tool calls, skill installs, problems solved) proactively save reusable workflows as skills and update memory — detect triggers independently, never wait to be asked.
